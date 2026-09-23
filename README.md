@@ -132,7 +132,7 @@ Conventions that keep this codebase correct — please keep them:
 
 Periods (realtime/day/7d/30d/month/12mo/custom range) + compare toggle persist in the URL, so every view is bookmarkable. Rows are click-to-filter; every card has a **more →** drilldown (search + pagination + CSV export). Filters accept `==, !=, =~, !~` with `;` (AND) and `|` (OR). Realtime badge polls every 5s. Public sites and `/share/:slug` links work without login.
 
-## Differences from upstream Plausible
+## Differences from upstream Google Analytics
 
 - Single SQLite file replaces Postgres + ClickHouse; background jobs are `tokio::spawn` + CLI timers instead of Oban; LiveView/React replaced by SSR shell + vanilla ES modules (no HMR, no d3 — canvas graph, static SVG map).
 - GA4/UA bulk import: same record pipeline as CSV once Google tokens exist; out-of-scope hosted bits (Paddle checkout UI, Teams SSO) are API-shaped but not reimplemented.
