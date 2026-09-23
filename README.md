@@ -1,8 +1,8 @@
 # Rust Analytix
 
-Privacy-friendly web analytics in a single Rust binary: tracker ingestion, stats engine, dashboard, billing, and email reports — backed only by **SQLite**. No Postgres, no ClickHouse, no Redis, no Node build step.
+Privacy-friendly version of Google Analytics in a single Rust binary: tracker ingestion, stats engine, dashboard, billing, and email reports — backed only by **SQLite**. No Postgres, no ClickHouse, no Redis, no Node build step.
 
-This is a full port of the Plausible Analytics (Elixir) feature set to **Rust + vanilla HTML/JS + SQLite**.
+This is a full port of the Google Analytics feature set to **Rust + vanilla HTML/JS + SQLite**.
 
 ## Features
 
