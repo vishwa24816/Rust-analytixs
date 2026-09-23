@@ -1,0 +1,21 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Register · Rust Analytix</title>
+<link rel="stylesheet" href="/public/app.css">
+</head>
+<body>
+<main class="auth">
+  <h1>Rust Analytix</h1>
+  <h2>Create your account</h2>
+  <form method="post" action="/register">
+    <label>Email<input type="email" name="email" autocomplete="email" required></label>
+    <label>Password (12+ characters)<input type="password" name="password" minlength="12" autocomplete="new-password" required></label>
+    <button>Register</button>
+  </form>
+  <p class="muted"><a href="/login">Already have an account? Login</a> · <a href="/">Home</a></p>
+</main>
+</body>
+</html>

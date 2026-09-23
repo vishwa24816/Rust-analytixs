@@ -1,0 +1,67 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>{{DOMAIN}} · Rust Analytix</title>
+<link rel="stylesheet" href="/public/app.css">
+</head>
+<body data-domain="{{DOMAIN}}">
+<header class="topbar">
+  <strong id="domain">{{DOMAIN}}</strong>
+  <span id="realtime" class="pill" title="visitors in last 5 minutes">● –</span>
+  <nav id="periods">
+    <button data-period="realtime">Realtime</button>
+    <button data-period="day">Day</button>
+    <button data-period="7d">7d</button>
+    <button data-period="30d">30d</button>
+    <button data-period="month">Month</button>
+    <button data-period="12mo">12mo</button>
+    <input id="from" type="date" title="from"> <input id="to" type="date" title="to">
+    <button id="custom-apply">apply</button>
+    <label><input type="checkbox" id="compare"> compare</label>
+  </nav>
+</header>
+<section id="filters"></section>
+<section id="segments"></section>
+<section id="topstats" class="cards"></section>
+<section>
+  <div id="graph-controls">
+    <select id="graph-metric">
+      <option value="visitors">Visitors</option>
+      <option value="visits">Visits</option>
+      <option value="pageviews">Pageviews</option>
+      <option value="events">Events</option>
+      <option value="bounce_rate">Bounce rate</option>
+      <option value="visit_duration">Visit duration</option>
+    </select>
+    <select id="graph-interval">
+      <option value="">auto</option>
+      <option value="minute">minute</option>
+      <option value="hour">hour</option>
+      <option value="date">day</option>
+      <option value="week">week</option>
+      <option value="month">month</option>
+    </select>
+  </div>
+  <canvas id="graph" width="960" height="220"></canvas><div id="annotations"></div>
+</section>
+<section id="breakdowns" class="grid">
+  <div class="card" id="bd-pages"><h3>Top pages</h3><div class="rows"></div></div>
+  <div class="card" id="bd-sources"><h3>Top sources</h3><div class="tabs" id="sources-tabs"></div><div class="rows"></div></div>
+  <div class="card" id="bd-browsers"><h3>Browsers</h3><div class="rows"></div></div>
+  <div class="card" id="bd-devices"><h3>Devices</h3><div class="rows"></div></div>
+  <div class="card" id="bd-countries"><h3>Countries</h3><svg id="worldmap" viewBox="0 0 960 500"></svg><div class="rows"></div></div>
+  <div class="card" id="bd-entry"><h3>Entry pages</h3><div class="rows"></div></div>
+  <div class="card" id="bd-exit"><h3>Exit pages</h3><div class="rows"></div></div>
+  <div class="card" id="bd-events"><h3>Custom events</h3><div class="rows"></div></div>
+  <div class="card" id="bd-conversions"><h3>Conversions</h3><div class="rows"></div></div>
+  <div class="card" id="bd-props"><h3>Custom properties</h3><input id="props-key" placeholder="property key" size="14"><button id="props-go">go</button><div class="rows"></div></div>
+  <div class="card" id="bd-funnel"><h3>Funnel</h3><select id="funnel-sel"></select><div class="rows"></div></div>
+  <div class="card" id="bd-journey"><h3>Journey</h3><input id="journey-entry" value="/" size="14"><button id="journey-go">go</button><div class="rows"></div></div>
+  <div class="card" id="bd-keywords"><h3>Search keywords</h3><div class="rows"></div></div>
+</section>
+<script type="module" src="/public/js/main.js"></script>
+<div id="modal-root"></div>
+</body>
+</html>

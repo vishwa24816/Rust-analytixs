@@ -1,0 +1,51 @@
+[package]
+name = "rust_analytix"
+version = "0.1.0"
+edition = "2021"
+
+[dependencies]
+axum = { version = "0.7", features = ["macros"] }
+tokio = { version = "1", features = ["full"] }
+tower-http = { version = "0.5", features = ["compression-full", "cors", "trace", "limit", "set-header"] }
+tower-sessions = "0.11"
+tower-sessions-sqlx-store = { version = "0.11", features = ["sqlite"] }
+sqlx = { version = "0.7", features = ["sqlite", "runtime-tokio", "macros", "chrono", "json", "uuid"] }
+serde = { version = "1", features = ["derive"] }
+serde_json = "1"
+serde_urlencoded = "0.7"
+validator = { version = "0.18", features = ["derive"] }
+argon2 = "0.5"
+totp-lite = "2"
+jsonwebtoken = "9"
+clap = { version = "4", features = ["derive", "env"] }
+dotenvy = "0.15"
+tracing = "0.1"
+tracing-subscriber = { version = "0.3", features = ["env-filter", "json"] }
+metrics = "0.23"
+metrics-exporter-prometheus = "0.15"
+lettre = { version = "0.11", default-features = false, features = ["builder", "tokio1", "smtp-transport", "serde", "rustls-tls", "tokio1-rustls"] }
+minijinja = "2"
+reqwest = { version = "0.12", default-features = false, features = ["json", "rustls-tls"] }
+csv = "1"
+chrono = { version = "0.4", features = ["serde"] }
+ulid = "1"
+ipnetwork = "0.20"
+maxminddb = "0.24"
+uaparser = "0.6"
+regex = "1"
+url = "2"
+rsa = "0.9"
+utoipa = "4"
+utoipa-swagger-ui = { version = "7", features = ["axum"] }
+thiserror = "2"
+rand = "0.8"
+sha2 = "0.10"
+sha1 = "0.10"
+base64 = "0.22"
+
+[dev-dependencies]
+criterion = "0.5"
+
+[[bench]]
+name = "stats_bench"
+harness = false

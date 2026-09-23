@@ -1,0 +1,7 @@
+data/
+target/
+.cargo/
+*.db
+*.db-wal
+*.db-shm
+

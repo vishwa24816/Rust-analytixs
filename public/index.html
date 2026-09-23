@@ -1,0 +1,25 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Rust Analytix</title>
+<link rel="stylesheet" href="/public/app.css">
+</head>
+<body>
+<h1>Rust Analytix</h1>
+<p>Privacy-friendly web analytics.</p>
+<ul>
+  <li><a href="/register">Register</a></li>
+  <li><a href="/login">Login</a></li>
+  <li><a href="/api-docs/">API docs</a></li>
+</ul>
+<h2>View a dashboard</h2>
+<form method="get" action="/go">
+  <input name="domain" placeholder="example.com" required>
+  <button>Open dashboard</button>
+</form>
+<h2>Add the tracker to your site</h2>
+<pre>&lt;script defer data-domain="YOUR-DOMAIN" src="/js/plausible.js"&gt;&lt;/script&gt;</pre>
+</body>
+</html>

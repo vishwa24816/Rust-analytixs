@@ -1,0 +1,162 @@
+{
+  "openapi": "3.0.3",
+  "info": { "title": "Rust Analytix", "version": "0.1.0", "description": "Privacy-friendly analytics: full API surface." },
+  "servers": [{ "url": "/" }],
+  "components": {
+    "securitySchemes": {
+      "bearer": { "type": "http", "scheme": "bearer", "description": "Session token, plausible_* API key, plausible_site_* site token, or session cookie" }
+    }
+  },
+  "security": [{ "bearer": [] }],
+  "paths": {
+    "/healthz": { "get": { "security": [], "responses": { "200": { "description": "ok" } } } },
+    "/metrics": { "get": { "security": [], "responses": { "200": { "description": "prometheus" } } } },
+    "/register": { "post": { "security": [], "description": "Form: email, password (12+ chars). Sets session cookie.", "responses": { "201": { "description": "created" } } } },
+    "/login": {
+      "get": { "security": [], "responses": { "200": { "description": "login page" } } },
+      "post": { "security": [], "description": "Form: email, password, totp_code?. Sets session cookie.", "responses": { "200": { "description": "ok" } } }
+    },
+    "/logout": { "post": { "responses": { "200": { "description": "ok" } } } },
+    "/me": { "get": { "responses": { "200": { "description": "current user" } } } },
+    "/verify-email": { "post": { "security": [], "responses": { "200": { "description": "ok" } } } },
+    "/password/forgot": { "post": { "security": [], "responses": { "200": { "description": "always ok" } } } },
+    "/password/reset": { "post": { "security": [], "responses": { "200": { "description": "ok" } } } },
+    "/oauth/google": { "get": { "security": [], "responses": { "302": { "description": "redirect" } } } },
+    "/oauth/google/callback": { "get": { "security": [], "responses": { "200": { "description": "session" } } } },
+    "/totp/enroll": { "post": { "responses": { "200": { "description": "otpauth_url" } } } },
+    "/totp/confirm": { "post": { "responses": { "200": { "description": "ok" } } } },
+    "/totp/disable": { "post": { "responses": { "200": { "description": "ok" } } } },
+    "/api/keys": {
+      "get": { "responses": { "200": { "description": "list" } } },
+      "post": { "description": "Form: name", "responses": { "201": { "description": "key + raw_token" } } }
+    },
+    "/api/keys/{id}": { "delete": { "responses": { "200": { "description": "ok" } } } },
+    "/api/sites": {
+      "get": { "responses": { "200": { "description": "list" } } },
+      "post": { "description": "Form: domain, timezone?", "responses": { "201": { "description": "created" } } }
+    },
+    "/api/sites/{id}": {
+      "get": { "responses": { "200": { "description": "site" } } },
+      "put": { "description": "Form: timezone?, public?", "responses": { "200": { "description": "ok" } } },
+      "delete": { "responses": { "200": { "description": "ok" } } }
+    },
+    "/api/sites/{id}/transfer": { "post": { "description": "Form: email", "responses": { "200": { "description": "ok" } } } },
+    "/api/sites/{id}/members": { "get": { "responses": { "200": { "description": "list" } } } },
+    "/api/sites/{id}/members/{uid}": {
+      "put": { "description": "Form: role", "responses": { "200": { "description": "ok" } } },
+      "delete": { "responses": { "200": { "description": "ok" } } }
+    },
+    "/api/sites/{id}/invite": { "post": { "description": "Form: email, role", "responses": { "201": { "description": "invitation" } } } },
+    "/api/invitations/accept": { "post": { "description": "Form: token", "responses": { "200": { "description": "site_id" } } } },
+    "/api/sites/{id}/shield": {
+      "get": { "responses": { "200": { "description": "list" } } },
+      "post": { "description": "Form: kind (ip|country|page|hostname), value", "responses": { "201": { "description": "rule" } } }
+    },
+    "/api/sites/{id}/shield/{rid}": { "delete": { "responses": { "200": { "description": "ok" } } } },
+    "/api/teams": {
+      "get": { "responses": { "200": { "description": "list" } } },
+      "post": { "description": "Form: name", "responses": { "201": { "description": "created" } } }
+    },
+    "/api/teams/{id}": {
+      "get": { "responses": { "200": { "description": "team" } } },
+      "put": { "description": "Form: name", "responses": { "200": { "description": "ok" } } },
+      "delete": { "responses": { "200": { "description": "ok" } } }
+    },
+    "/api/teams/{id}/members": {
+      "get": { "responses": { "200": { "description": "list" } } },
+      "post": { "description": "Form: email, role?", "responses": { "200": { "description": "ok" } } }
+    },
+    "/api/teams/{id}/members/{uid}": {
+      "put": { "description": "Form: role", "responses": { "200": { "description": "ok" } } },
+      "delete": { "responses": { "200": { "description": "ok" } } }
+    },
+    "/api/event": { "post": { "security": [], "description": "Tracker payload (text/plain JSON). 202 stored or dropped.", "responses": { "202": { "description": "accepted" }, "429": { "description": "rate limited" }, "402": { "description": "site locked" } } } },
+    "/js/{script}": { "get": { "security": [], "responses": { "200": { "description": "tracker js" } } } },
+    "/api/v1/stats/aggregate": { "get": { "description": "Query: site_id, period, date?, from?, to?, filters?, metrics?, compare?", "responses": { "200": { "description": "results" } } } },
+    "/api/v1/stats/breakdown": { "get": { "description": "Query: + property (required), limit?, page?", "responses": { "200": { "description": "results" } } } },
+    "/api/v1/stats/timeseries": { "get": { "description": "Query: + interval?", "responses": { "200": { "description": "results" } } } },
+    "/api/v1/stats/realtime/visitors": { "get": { "responses": { "200": { "description": "count" } } } },
+    "/api/v1/stats/csv": { "get": { "description": "Query: + property. Returns text/csv.", "responses": { "200": { "description": "csv" } } } },
+    "/api/v2/query": { "post": { "description": "JSON: site_id, period, metrics[], dimensions[<=1], filters[]", "responses": { "200": { "description": "results" } } } },
+    "/dashboard/{domain}": { "get": { "responses": { "200": { "description": "dashboard html" } } } },
+    "/public/{file}": { "get": { "security": [], "responses": { "200": { "description": "static" } } } },
+    "/api/sites/{id}/goals": {
+      "get": { "responses": { "200": { "description": "list" } } },
+      "post": { "description": "Form: kind, event_name, page_path?, currency?", "responses": { "201": { "description": "created" } } }
+    },
+    "/api/sites/{id}/goals/{gid}": { "delete": { "responses": { "200": { "description": "ok" } } } },
+    "/api/sites/{id}/funnels": {
+      "get": { "responses": { "200": { "description": "list" } } },
+      "post": { "description": "Form: name, steps (comma-separated goal ids)", "responses": { "201": { "description": "created" } } }
+    },
+    "/api/sites/{id}/funnels/{fid}": {
+      "get": { "responses": { "200": { "description": "funnel" } } },
+      "delete": { "responses": { "200": { "description": "ok" } } }
+    },
+    "/api/sites/{id}/funnels/{fid}/stats": { "get": { "responses": { "200": { "description": "steps" } } } },
+    "/api/sites/{id}/journey": { "get": { "description": "Query: entry, period?, limit?", "responses": { "200": { "description": "paths" } } } },
+    "/api/sites/{id}/segments": {
+      "get": { "responses": { "200": { "description": "list" } } },
+      "post": { "description": "Form: name, filters?", "responses": { "201": { "description": "created" } } }
+    },
+    "/api/sites/{id}/segments/{sid}": { "delete": { "responses": { "200": { "description": "ok" } } } },
+    "/api/sites/{id}/annotations": {
+      "get": { "responses": { "200": { "description": "list" } } },
+      "post": { "description": "Form: date, content", "responses": { "201": { "description": "created" } } }
+    },
+    "/api/sites/{id}/annotations/{aid}": { "delete": { "responses": { "200": { "description": "ok" } } } },
+    "/api/sites/{id}/imports": {
+      "get": { "responses": { "200": { "description": "list" } } },
+      "post": { "description": "Body: raw CSV (text/csv)", "responses": { "202": { "description": "running" } } }
+    },
+    "/api/sites/{id}/search-console/keywords": { "get": { "responses": { "200": { "description": "queries" } } } },
+    "/api/billing/plans": { "get": { "security": [], "responses": { "200": { "description": "plans" } } } },
+    "/api/billing/subscription": { "get": { "responses": { "200": { "description": "subscription" } } } },
+    "/api/billing/webhook": { "post": { "security": [], "description": "Paddle Classic form alert", "responses": { "200": { "description": "ok" } } } },
+    "/api/sites/{id}/reports": {
+      "get": { "responses": { "200": { "description": "list" } } },
+      "post": { "description": "Form: frequency, recipients (JSON array)", "responses": { "201": { "description": "created" } } }
+    },
+    "/api/sites/{id}/reports/{rid}": { "delete": { "responses": { "200": { "description": "ok" } } } },
+    "/api/audit": { "get": { "responses": { "200": { "description": "own trail" } } } },
+    "/api/admin/users": { "get": { "responses": { "200": { "description": "admin only" } } } },
+    "/api/admin/sites": { "get": { "responses": { "200": { "description": "admin only" } } } },
+    "/api/admin/users/{uid}/admin": { "post": { "description": "Form: admin (bool)", "responses": { "200": { "description": "ok" } } } },
+    "/api/plugins/v1/capabilities": { "get": { "security": [], "responses": { "200": { "description": "capabilities" } } } },
+    "/api/plugins/v1/shared_links": {
+      "get": { "description": "Site token auth", "responses": { "200": { "description": "list" } } },
+      "put": { "description": "JSON {name, password?} or {shared_link: {...}}", "responses": { "201": { "description": "link" } } }
+    },
+    "/api/plugins/v1/shared_links/{id}": {
+      "get": { "responses": { "200": { "description": "link" } } },
+      "delete": { "responses": { "200": { "description": "ok" } } }
+    },
+    "/api/plugins/v1/goals": {
+      "get": { "responses": { "200": { "description": "list" } } },
+      "put": { "responses": { "201": { "description": "created" } } },
+      "delete": { "description": "Bulk: {goal_ids: []} or [...]", "responses": { "200": { "description": "ok" } } }
+    },
+    "/api/plugins/v1/goals/{id}": {
+      "get": { "responses": { "200": { "description": "goal" } } },
+      "delete": { "responses": { "200": { "description": "ok" } } }
+    },
+    "/api/plugins/v1/funnels": { "get": { "responses": { "200": { "description": "list" } } } },
+    "/api/plugins/v1/funnels/{id}": { "get": { "responses": { "200": { "description": "funnel" } } } },
+    "/api/plugins/v1/custom_props": {
+      "put": { "description": "Form: prop", "responses": { "200": { "description": "ok" } } },
+      "delete": { "description": "Form: prop", "responses": { "200": { "description": "ok" } } }
+    },
+    "/api/plugins/v1/tracker_script_configuration": {
+      "get": { "responses": { "200": { "description": "config" } } },
+      "put": { "responses": { "200": { "description": "config" } } }
+    },
+    "/api/sites/{id}/plugin-tokens": {
+      "get": { "responses": { "200": { "description": "list" } } },
+      "put": { "description": "Form: name", "responses": { "201": { "description": "token + raw_token" } } }
+    },
+    "/api/sites/{id}/plugin-tokens/{tid}": { "delete": { "responses": { "200": { "description": "ok" } } } },
+    "/api/sites/{id}/icon": { "get": { "responses": { "200": { "description": "favicon" } } } },
+    "/share/{slug}": { "get": { "security": [], "description": "Shared dashboard (?password=)", "responses": { "200": { "description": "html" } } } },
+    "/api/share/{slug}/stats/{endpoint}": { "get": { "security": [], "description": "aggregate|breakdown|timeseries|realtime/visitors (?password=)", "responses": { "200": { "description": "results" } } } }
+  }
+}
